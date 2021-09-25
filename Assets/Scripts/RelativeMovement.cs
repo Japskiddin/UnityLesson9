@@ -12,6 +12,7 @@ public class RelativeMovement : MonoBehaviour
     public float gravity = -9.8f;
     public float terminalVelocity = -10.0f; // предельная скорость падения
     public float minFall = -1.5f; // минимальная скорость падения
+    public float pushForce = 3.0f; // величина прилагаемой силы
     private float _vertSpeed;
     private CharacterController _charController;
     private ControllerColliderHit _contact; // для хранение данных о столкновении между функциями
@@ -86,5 +87,10 @@ public class RelativeMovement : MonoBehaviour
 
     private void OnControllerColliderHit(ControllerColliderHit hit) {
         _contact = hit;
+
+        Rigidbody body = hit.collider.attachedRigidbody; // проверяем, есть ли у участвующего в столкновении объекта компонент Rigidbody
+        if (body != null && !body.isKinematic) {
+            body.velocity = hit.moveDirection * pushForce; // назначаем физическому телу скорость
+        }
     }
 }

@@ -29,4 +29,20 @@ public class DoorOpenDevice : MonoBehaviour
         }
         _open = !_open;
     }
+
+    public void Activate() {
+        if (!_open) { // открывает дверь при условии, что она закрыта
+            Vector3 pos = transform.position + dPos;
+            transform.position = pos;
+            _open = true;
+        } 
+    }
+
+    public void Deactivate() {
+        if (_open) { // закрывает дверь при условии, что она открыта
+            Vector3 pos = transform.position - dPos;
+            transform.position = pos;
+            _open = false;
+        }
+    }
 }
